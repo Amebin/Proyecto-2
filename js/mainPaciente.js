@@ -26,7 +26,26 @@ const especialidadElegida = document.getElementById('especialidadElegida');
 const fechaHora = document.getElementById('fechaHora');
 const consultaIngresada = document.getElementById('consultaIngresada');
 
+// creacion de listados especialidad, medico, horarios disponibles 
+const especialidades = [
+    {especialista: 'clinico', nombre: 'Alfonso Diaz', horaAtencion: '10:30'},
+    {especialista: 'urologo', nombre: 'Franco Gimenez', horaAtencion: '11:30'},
+    {especialista: 'cardiologo', nombre: 'Lucas Gonzalez', horaAtencion: '09:30'},
+]
+
 // declaracion de eventos 
+function listadoEspecialidades(){
+    for (let index = 0; index < especialidades.length; index++){
+        const elemento = document.createElement('option');
+        const esp = especialidades[index];
+        elemento.value = `Medico ${esp.especialista}`;
+        elemento.text = `${esp.especialista}`;
+        especialidad.appendChild(elemento);
+    }
+}
+
+listadoEspecialidades()
+
 formulario.addEventListener('submit', function(event){
     event.preventDefault()
 
@@ -54,6 +73,7 @@ formulario.addEventListener('submit', function(event){
         console.log('Formulario error');
     }
 })
+
 
 
 
