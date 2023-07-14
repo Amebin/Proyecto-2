@@ -21,6 +21,7 @@
         <nav class="bg-body-secondary row sticky-top" style="height: 80px;"></nav>
 
         <main class="pb-5 mb-5">
+        <!-- Primera vista al loguearse paciente, botones de seleccion -->
             <div class="row justify-content-around pt-3 pb-3">
 
                 <button type="button" class="btn btn-primary col-5" onclick="mostrarAside();">Consultar turnos</button>
@@ -28,12 +29,14 @@
                 <button type="button" class="btn btn-secondary col-5" onclick="mostrarSection();">Solicitar turnos</button>
             </div>
 
+        <!-- Formulario de solicitud de turnos  -->
             <section class="row" id="sectionSolicitar">
+
                 <div>
                     <h6 class="head">Por favor completa los campos requeridos para solicitar un turno</h6>
                 </div>
 
-
+                <!-- formulario de solicitud -->
                 <div>
                     <form method="post">
                         <div class="mb-3">
@@ -70,8 +73,23 @@
                     </form>
                 </div>
 
+                <!-- toast de confirmacion -->
+                <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                    <div id="toastConfirmacion" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <strong class="me-auto">Ingresar nombre paciente, opcional</strong>
+                          <small>Hace 1 segundo</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          <p id="toastMensaje">Su turno fue confirmado</p>
+                        </div>
+                      </div>
+                </div>
+
             </section>
 
+            <!-- Formulario de consulta de turnos  -->
             <aside class="row" id="asideTurnos">
                 <div id="cardTurnos">
                    

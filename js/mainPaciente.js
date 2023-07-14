@@ -34,11 +34,11 @@ const pm = ['16:00', '16:30', '17:00', '17:30']
 const todos = am.concat(pm);
 
 // constantes necesarias para escribir la card con los datos del turno 
-/* const especialidadElegida = document.getElementById('especialidadElegida');
-const fechaHora = document.getElementById('fechaHora');
-const consultaIngresada = document.getElementById('consultaIngresada'); */
-
 const cardTurnos = document.getElementById('cardTurnos');
+
+// constantes para manejar la card
+const toastConfirmacion = document.getElementById('toastConfirmacion');
+const toastConfirmacionBts = bootstrap.Toast.getOrCreateInstance(toastConfirmacion);
 
 // declaracion de eventos 
 function cargarEspecialista() {
@@ -86,7 +86,6 @@ function escribirCard() {
         }
     }
 }
-
 
 /*escucha los cambios en el desplegable especialidad, borra el listado 
 ue posee y añade el nuevo segun la opcion indicada */
@@ -146,6 +145,7 @@ formulario.addEventListener('submit', function (event) {
         borrarOpciones(consulta)
         formulario.reset() */
         
+        toastConfirmacionBts.show();
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
     }
