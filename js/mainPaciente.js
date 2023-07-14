@@ -34,9 +34,11 @@ const pm = ['16:00', '16:30', '17:00', '17:30']
 const todos = am.concat(pm);
 
 // constantes necesarias para escribir la card con los datos del turno 
-const especialidadElegida = document.getElementById('especialidadElegida');
+/* const especialidadElegida = document.getElementById('especialidadElegida');
 const fechaHora = document.getElementById('fechaHora');
-const consultaIngresada = document.getElementById('consultaIngresada');
+const consultaIngresada = document.getElementById('consultaIngresada'); */
+
+const cardTurnos = document.getElementById('cardTurnos');
 
 // declaracion de eventos 
 function cargarEspecialista() {
@@ -56,16 +58,35 @@ function borrarOpciones(v) {
 }
 // funcion para completar la card
 function escribirCard() {
-    especialidadElegida.innerHTML = ''; //vacio los campos 
-        fechaHora.innerHTML = '';
-        consultaIngresada.innerHTML = '';
+        cardTurnos.innerHTML = ''
 
-        for (turno of turnosSolicitados) { //escribo info en la card basico
-            especialidadElegida.innerHTML = `Medico ${turno.especialidad}`
-            fechaHora.innerHTML = `${turno.fechaTurno} ${turno.horarios}`
-            consultaIngresada.innerHTML = `${turno.consulta}`
+        if(turnosSolicitados === 0){
+            cardTurnos.innerHTML = 'No tienes turnos asignados en este momento'; 
+        } else {
+
+        for (let turno of turnosSolicitados){
+            const elemento = document.createElement('div')
+            
+            elemento.innerHTML = `<div class="card text-center">
+            <div class="card-header">
+                <p id="especialidadElegida">Medico ${turno.especialidad}</p>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" id="fechaHora">${turno.fechaTurno} ${turno.horarios}</h5>
+
+                <p class="card-text" id="consultaIngresada">${turno.consulta}</p>
+                <a href="#" class="btn btn-primary">Modificar</a>
+                <a href="#" class="btn btn-primary">Cancelar</a>
+            </div>
+            <div class="card-footer text-body-secondary">
+                <p>Recuerde llegar 10 minutos antes de su turno para informarse en mesa de entrada</p>
+            </div>
+        </div>`
+            cardTurnos.appendChild(elemento);
         }
+    }
 }
+
 
 /*escucha los cambios en el desplegable especialidad, borra el listado 
 ue posee y añade el nuevo segun la opcion indicada */
@@ -118,13 +139,13 @@ formulario.addEventListener('submit', function (event) {
         }
 
         turnosSolicitados.push(nuevoTurno); //pusheamos los nuevos datos
-        
+        escribirCard()
         //reseteamos el form
        /*  borrarOpciones(medico)
         borrarOpciones(horarios)
         borrarOpciones(consulta)
         formulario.reset() */
-
+        
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
     }
