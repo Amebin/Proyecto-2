@@ -118,13 +118,17 @@ formulario.addEventListener('submit', function (event) {
         }
 
         turnosSolicitados.push(nuevoTurno); //pusheamos los nuevos datos
+        
+        //reseteamos el form
+       /*  borrarOpciones(medico)
+        borrarOpciones(horarios)
+        borrarOpciones(consulta)
+        formulario.reset() */
 
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
     }
 })
-
-
 
 // llamamos las funciones 
 cargarEspecialista()
