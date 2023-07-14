@@ -31,7 +31,12 @@ const especialista = [
 
 const am = ['08:00', '08:30', '09:00', '09:30'] 
 const pm = ['16:00', '16:30', '17:00', '17:30']
+const todos = am.concat(pm);
 
+// constantes necesarias para escribir la card con los datos del turno 
+const especialidadElegida = document.getElementById('especialidadElegida');
+const fechaHora = document.getElementById('fechaHora');
+const consultaIngresada = document.getElementById('consultaIngresada');
 
 // declaracion de eventos 
 function cargarEspecialista() {
@@ -48,6 +53,18 @@ function cargarEspecialista() {
 //borra el desplegable de opciones del parametro que le indiquemos
 function borrarOpciones(v) { 
     v.innerHTML = '';
+}
+// funcion para completar la card
+function escribirCard() {
+    especialidadElegida.innerHTML = ''; //vacio los campos 
+        fechaHora.innerHTML = '';
+        consultaIngresada.innerHTML = '';
+
+        for (turno of turnosSolicitados) { //escribo info en la card basico
+            especialidadElegida.innerHTML = `Medico ${turno.especialidad}`
+            fechaHora.innerHTML = `${turno.fechaTurno} ${turno.horarios}`
+            consultaIngresada.innerHTML = `${turno.consulta}`
+        }
 }
 
 /*escucha los cambios en el desplegable especialidad, borra el listado 
@@ -70,7 +87,6 @@ especialidad.addEventListener("change", function () {
         
         function elegirTurno(){
             if ((medico.value)%3 === 0) {
-                const todos = am.concat(pm);
                 return todos[index+2]
             } else if ((medico.value)%2 === 1) {
                 return pm[index]
@@ -80,15 +96,13 @@ especialidad.addEventListener("change", function () {
           }
         const definirHora = elegirTurno()
 
-        elemento.value = medico.value;
-      //  elemento.text = `${am[index]}`;
+        elemento.value = definirHora;
       elemento.text = `${definirHora}`;
         horarios.appendChild(elemento);
 
     }
 
 });
-
 
 // tomamos los datos del form al hacer submit
 formulario.addEventListener('submit', function (event) {
@@ -97,22 +111,13 @@ formulario.addEventListener('submit', function (event) {
     if (formulario.checkValidity()) { //el form esta listo para ser enviado
         const nuevoTurno = { //si se valida correctamente creo mi objeto y lo pusheo 
             fechaTurno: fechaTurno.value,
-            especialidad: especialidad.value,
-            medico: medico.value,
-            horarios: horarios.value,
+            especialidad: (especialista[especialidad.value]).formacion,
+            medico: (especialista[medico.value]).nombre,
+            horarios:horarios.value,
             consulta: consulta.value,
         }
-        turnosSolicitados.push(nuevoTurno);
 
-        especialidadElegida.innerHTML = ''; //vacio los campos 
-        fechaHora.innerHTML = '';
-        consultaIngresada.innerHTML = '';
-        for (turno of turnosSolicitados) { //escribo info en la card basico
-            especialidadElegida.innerHTML = `${turno.especialidad}`
-            fechaHora.innerHTML = `${turno.fechaTurno} ${turno.horarios}`
-            consultaIngresada.innerHTML = `${turno.consulta}`
-        }
-
+        turnosSolicitados.push(nuevoTurno); //pusheamos los nuevos datos
 
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
@@ -125,7 +130,4 @@ formulario.addEventListener('submit', function (event) {
 cargarEspecialista()
 
 
-// constantes necesarias para escribir la card con los datos del turno 
-const especialidadElegida = document.getElementById('especialidadElegida');
-const fechaHora = document.getElementById('fechaHora');
-const consultaIngresada = document.getElementById('consultaIngresada');
+
