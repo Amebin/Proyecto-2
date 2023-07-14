@@ -63,7 +63,7 @@
 
                         <div class="mb-3">
                             <label for="consulta" class="form-label">Ingresa tu consulta</label>
-                            <input type="text" class="form-control" id="consulta" required>
+                            <input type="text" class="form-control" id="consulta" maxlength="100" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary" >Solicitar turno</button>
@@ -73,22 +73,8 @@
             </section>
 
             <aside class="row" id="asideTurnos">
-                <div>
-                    <div class="card text-center">
-                        <div class="card-header">
-                            <p id="especialidadElegida"></p>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title" id="fechaHora"></h5>
-
-                            <p class="card-text" id="consultaIngresada"></p>
-                            <a href="#" class="btn btn-primary">Modificar</a>
-                            <a href="#" class="btn btn-primary">Cancelar</a>
-                        </div>
-                        <div class="card-footer text-body-secondary">
-                            <p>Recuerde llegar 10 minutos antes de su turno para informarse en mesa de entrada</p>
-                        </div>
-                    </div>
+                <div id="cardTurnos">
+                   
                 </div>
             </aside>
 
