@@ -2,6 +2,7 @@
 function mostrarAside() {
     document.getElementById('asideTurnos').style.display = 'block';
     document.getElementById('sectionSolicitar').style.display = 'none';
+    escribirCard()
 }
 
 // Funcion para mostrar el section con el formulario para solicitar turnos
@@ -10,8 +11,16 @@ function mostrarSection() {
     document.getElementById('sectionSolicitar').style.display = 'block';
 }
 
-// creo el array vacio para luego pushear los objetos 
-const turnosSolicitados = []; //agregar mediante push luego de traer los datos del form
+// sumo los datos del local 
+let turnosSolicitados;
+if (localStorage.getItem('turnosSolicitados')) {
+    turnosSolicitados = JSON.parse(localStorage.getItem('turnosSolicitados'));
+} else {
+    turnosSolicitados = [];
+}
+
+//constante para escribir el form 
+const opcionesFrom = document.querySelectorAll('.opcionesFrom');
 
 // constantes necesarias para recibir los datos del form 
 const formulario = document.querySelector('form');
@@ -29,7 +38,7 @@ const especialista = [
     { formacion: 'Traumatologo', nombre: 'Dra. Liz Patiño' },
 ]
 
-const am = ['08:00', '08:30', '09:00', '09:30'] 
+const am = ['08:00', '08:30', '09:00', '09:30']
 const pm = ['16:00', '16:30', '17:00', '17:30']
 const todos = am.concat(pm);
 
@@ -40,9 +49,16 @@ const cardTurnos = document.getElementById('cardTurnos');
 const toastConfirmacion = document.getElementById('toastConfirmacion');
 const toastConfirmacionBts = bootstrap.Toast.getOrCreateInstance(toastConfirmacion);
 
-// declaracion de eventos 
-function cargarEspecialista() {
+// funcion para mostrar el resto del form despues de seleccionar el especialista
+function mostrarForm(d) {
+    opcionesFrom.forEach(el => {
+        el.style.display = d;
+    })
+}
 
+// cargamos el listado de especialistas
+function cargarEspecialista() {
+    
     for (let index = 0; index < especialista.length; index++) {
         const elemento = document.createElement('option');
         const esp = especialista[index];
@@ -53,21 +69,22 @@ function cargarEspecialista() {
 }
 
 //borra el desplegable de opciones del parametro que le indiquemos
-function borrarOpciones(v) { 
+function borrarOpciones(v) {
     v.innerHTML = '';
 }
+
 // funcion para completar la card
 function escribirCard() {
-        cardTurnos.innerHTML = ''
+    cardTurnos.innerHTML = ''
 
-        if(turnosSolicitados === 0){
-            cardTurnos.innerHTML = 'No tienes turnos asignados en este momento'; 
-        } else {
+    if (turnosSolicitados === 0) {
+        cardTurnos.innerHTML = 'No tienes turnos asignados en este momento';
+    } else {
 
-        for (let turno of turnosSolicitados){
+        for (let turno of turnosSolicitados) {
             const elemento = document.createElement('div')
-            
-            elemento.innerHTML = `<div class="card text-center">
+
+            elemento.innerHTML = `<div class="card text-center m-3">
             <div class="card-header">
                 <p id="especialidadElegida">Medico ${turno.especialidad}</p>
             </div>
@@ -96,28 +113,31 @@ especialidad.addEventListener("change", function () {
     elemento.value = especialidad.value;
     elemento.text = `${(especialista[especialidad.value]).nombre}`;
     medico.appendChild(elemento);
+    
+    mostrarForm('block');
+
 });
 
 /* escucha los cambios en el desplegable medico, borra el listado y añade 
 horarios disponibles en base al medico seleccionado*/
 especialidad.addEventListener("change", function () {
     borrarOpciones(horarios) //llamamos a la funcion borrar
-    for (let index = 0; index < am.length; index++){
+    for (let index = 0; index < am.length; index++) {
         const elemento = document.createElement('option');
-        
-        function elegirTurno(){
-            if ((medico.value)%3 === 0) {
-                return todos[index+2]
-            } else if ((medico.value)%2 === 1) {
+
+        function elegirTurno() {
+            if ((medico.value) % 3 === 0) {
+                return todos[index + 2]
+            } else if ((medico.value) % 2 === 1) {
                 return pm[index]
             } else {
                 return am[index]
             }
-          }
+        }
         const definirHora = elegirTurno()
 
         elemento.value = definirHora;
-      elemento.text = `${definirHora}`;
+        elemento.text = `${definirHora}`;
         horarios.appendChild(elemento);
 
     }
@@ -133,18 +153,20 @@ formulario.addEventListener('submit', function (event) {
             fechaTurno: fechaTurno.value,
             especialidad: (especialista[especialidad.value]).formacion,
             medico: (especialista[medico.value]).nombre,
-            horarios:horarios.value,
+            horarios: horarios.value,
             consulta: consulta.value,
         }
 
         turnosSolicitados.push(nuevoTurno); //pusheamos los nuevos datos
+
+        // guardamos los datos en el local storage despues de pushearlos
+        localStorage.setItem('turnosSolicitados', JSON.stringify(turnosSolicitados));
+       
         escribirCard()
         //reseteamos el form
-       /*  borrarOpciones(medico)
-        borrarOpciones(horarios)
-        borrarOpciones(consulta)
-        formulario.reset() */
-        
+        mostrarForm('none');
+        formulario.reset();
+
         toastConfirmacionBts.show();
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
