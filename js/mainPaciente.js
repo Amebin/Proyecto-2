@@ -36,6 +36,7 @@ const especialista = [
     { formacion: 'urologo', nombre: 'Dr. Franco Gimenez' },
     { formacion: 'cardiologo', nombre: 'Dr. Lucas Gonzalez' },
     { formacion: 'Traumatologo', nombre: 'Dra. Liz Patiño' },
+    
 ]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
@@ -105,21 +106,21 @@ function escribirCard() {
 }
 
 /*escucha los cambios en el desplegable especialidad, borra el listado 
-ue posee y añade el nuevo segun la opcion indicada */
+que posee y añade el nuevo segun la opcion indicada */
 especialidad.addEventListener("change", function () {
     borrarOpciones(medico) //llamamos a la funcion borrar
 
     const elemento = document.createElement('option');
-    elemento.value = especialidad.value;
-    elemento.text = `${(especialista[especialidad.value]).nombre}`;
-    medico.appendChild(elemento);
-    
-    mostrarForm('block');
+            elemento.value = especialidad.value;
+            elemento.text = `${(especialista[especialidad.value]).nombre}`;
+            medico.appendChild(elemento);
 
+    mostrarForm('block');
 });
 
-/* escucha los cambios en el desplegable medico, borra el listado y añade 
-horarios disponibles en base al medico seleccionado*/
+// escucha los cambios en el desplegable especialidad (hasta subir los datos de medico), 
+//borra el listado y añade 
+//horarios disponibles en base al medico seleccionado
 especialidad.addEventListener("change", function () {
     borrarOpciones(horarios) //llamamos a la funcion borrar
     for (let index = 0; index < am.length; index++) {
@@ -173,7 +174,7 @@ formulario.addEventListener('submit', function (event) {
     }
 })
 
-// llamamos las funciones 
+// llamamos funcion cargar especialita
 cargarEspecialista()
 
 
