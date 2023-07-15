@@ -9,7 +9,7 @@
 
     <title>Bienvenido!</title>
     <style>
-        #asideTurnos, #sectionSolicitar {
+        #asideTurnos, #sectionSolicitar, .opcionesFrom {
             display: none;
         }
     </style>
@@ -52,24 +52,24 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 opcionesFrom">
                             <select class="form-select" aria-label="Default select example" required id="medico">
                                 <option selected disabled value="">Medico</option>
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 opcionesFrom">
                             <select class="form-select" aria-label="Default select example" required id="horarios">
                                 <option selected disabled value="">Horarios</option>
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 opcionesFrom">
                             <label for="consulta" class="form-label">Ingresa tu consulta</label>
                             <input type="text" class="form-control" id="consulta" maxlength="100" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" >Solicitar turno</button>
+                        <button type="submit" class="btn btn-primary opcionesFrom" >Solicitar turno</button>
                     </form>
                 </div>
 
