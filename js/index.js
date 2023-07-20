@@ -2,44 +2,68 @@ const formulario = document.getElementById('formulario');
 const inputs = document.querySelectorAll('#formulario input');
 
 const expresiones = {
-	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
 	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-	password: /^.{4,12}$/, // 4 a 12 digitos.
+    apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    especialidad: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+    matricula: /^\d{3,14}$/, // 7 a 14 numeros.
+    domicilio: /^[a-zA-Z0-9\s\:]{4,40}$/, // Letras y numeros 
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-	telefono: /^\d{7,14}$/ // 7 a 14 numeros.
+	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
+	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+	password: /^.{4,12}$/, // 4 a 12 digitos.
 }
 
 const campos = {
-	usuario: false,
 	nombre: false,
-	password: false,
+	apellido: false,
+    especialidad: false,
+    matricula: false,
+    domicilio: false,
+	telefono: false,
 	correo: false,
-	telefono: false
+    usuario: false,
+	password: false,
 }
 
 const validarFormulario = (e) => {
 	switch (e.target.name) {
+        case "nombre":
+            validarCampo(expresiones.nombre, e.target, 'nombre');
+        break;
+        case "apellido":
+            validarCampo(expresiones.apellido, e.target, 'apellido');
+        break;
+        case "especialidad":
+            validarCampo(expresiones.especialidad, e.target, 'especialidad');
+        break;
+        case "matricula":
+            validarCampo(expresiones.matricula, e.target, 'matricula');
+        break;
+        case "domicilio":
+            validarCampo(expresiones.domicilio, e.target, 'domicilio');
+        break;
+        case "telefono":
+            validarCampo(expresiones.telefono, e.target, 'telefono');
+        break;
 		case "usuario":
 			validarCampo(expresiones.usuario, e.target, 'usuario');
 		break;
-		case "nombre":
-			validarCampo(expresiones.nombre, e.target, 'nombre');
-		break;
-		case "password":
-			validarCampo(expresiones.password, e.target, 'password');
-			validarPassword2();
-		break;
-		case "password2":
-			validarPassword2();
-		break;
-		case "correo":
-			validarCampo(expresiones.correo, e.target, 'correo');
-		break;
-		case "telefono":
-			validarCampo(expresiones.telefono, e.target, 'telefono');
-		break;
-	}
-}
+        case "correo":
+            validarCampo(expresiones.correo, e.target, 'correo');
+        break;
+        case "password":
+            validarCampo(expresiones.password, e.target, 'password');
+            validarPassword2();
+        break;
+        case "password2":
+            validarPassword2();
+        break;
+    }
+    }
+
+
+
+
 
 const validarCampo = (expresion, input, campo) => {
 	if(expresion.test(input.value)){
