@@ -30,14 +30,12 @@ const medico = document.getElementById('medico')
 const horarios = document.getElementById('horarios')
 const consulta = document.getElementById('consulta');
 
-
 // creacion de listados especialidad, medico, horarios disponibles 
 const especialista = [
     { formacion: 'clinico', nombre: 'Dr. Alfonso Diaz' },
     { formacion: 'urologo', nombre: 'Dr. Franco Gimenez' },
     { formacion: 'cardiologo', nombre: 'Dr. Lucas Gonzalez' },
     { formacion: 'Traumatologo', nombre: 'Dra. Liz Patiño' },
-
 ]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
@@ -52,7 +50,6 @@ const toastConfirmacion = document.getElementById('toastConfirmacion');
 const toastConfirmacionBts = bootstrap.Toast.getOrCreateInstance(toastConfirmacion);
 
 //funcion borrar turno 
-
 function borrarTurno(i) {
     nombrePaciente.splice(i, 1);
     localStorage.setItem(`nombrePaciente`, JSON.stringify(nombrePaciente));
@@ -86,8 +83,6 @@ function borrarOpciones(v) {
 
 // funcion para completar la card
 function escribirCard() {
-
-
     cardTurnos.innerHTML = '' //vaciamos la card
 
     if (nombrePaciente.length === 0) { //condiconal mas html de la card
@@ -107,8 +102,7 @@ function escribirCard() {
                 <h5 class="card-title" id="fechaHora">${turno.fechaTurno} ${turno.horarios}</h5>
 
                 <p class="card-text" id="consultaIngresada">${turno.consulta}</p>
-                <button class="btn btn-primary">Modificar</button>
-                <button class="btn btn-danger btnBorrarTurno">Cancelar</button>
+                <button class="btn btn-danger btnBorrarTurno">Cancelar Turno</button>
             </div>
             <div class="card-footer text-body-secondary">
                 <p>Recuerde llegar 10 minutos antes de su turno para informarse en mesa de entrada</p>
@@ -118,11 +112,10 @@ function escribirCard() {
         }
     }
 
-    //constante para borrar o modificar turnos 
+    //constante para borrar y modificar turnos 
     const btnBorrarTurno = document.querySelectorAll('.btnBorrarTurno');
 
-    //le agregamos la funcion al boton que se genere
-
+    //le agregamos la funcion al boton que se genera
     if (btnBorrarTurno.length > 1) {
         for (let i = 0; i < btnBorrarTurno.length; i++) {
             btnBorrarTurno[i].removeEventListener('click', () => { })
