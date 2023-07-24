@@ -55,8 +55,8 @@ const especialista = [
     { nombre: 'Dra. Delfina Diaz 4', turno: 'tarde', especialidad: '1' },
     { nombre: 'Dr. Izi Fercano 4', turno: 'hibrido', especialidad: '1' },
     { nombre: 'Dr. Alfonso Diaz 5', turno: 'mañana', especialidad: '1' },
-    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: '2' },
-    { nombre: 'Dr. Izi Fercano 5', turno: 'hibrido', especialidad: '2' },
+    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: '1' },
+    { nombre: 'Dr. Izi Fercano 5', turno: 'hibrido', especialidad: '1' },
 ]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
