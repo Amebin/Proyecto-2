@@ -40,18 +40,24 @@ const horarios = document.getElementById('horarios')
 const consulta = document.getElementById('consulta');
 
 // creacion de listados especialidad, medico, horarios disponibles 
-
-const especialista = {
-    clinico: [
-        { nombre: 'Dr. Alfonso Diaz', turno: 'mañana', },
-        { nombre: 'Dra. Delfina Diaz', turno: 'tarde', },
-        { nombre: 'Dr. Izi Fercano', turno: 'hibrido', },
-    ],
-    urologo: {},
-    cardiologo: {},
-    traumatologo: {},
-    pediatra: {},
-}
+const especialidades = ['clinico', 'urologo', 'xd', '1']
+const especialista = [
+    { nombre: 'Dr. Alfonso Diaz', turno: 'mañana', especialidad: 'clinico' },
+    { nombre: 'Dra. Delfina Diaz', turno: 'tarde', especialidad: 'clinico' },
+    { nombre: 'Dr. Izi Fercano', turno: 'hibrido', especialidad: 'clinico' },
+    { nombre: 'Dr. Alfonso Diaz 2', turno: 'mañana', especialidad: 'urologo' },
+    { nombre: 'Dra. Delfina Diaz 2', turno: 'tarde', especialidad: 'urologo' },
+    { nombre: 'Dr. Izi Fercano 2', turno: 'hibrido', especialidad: 'urologo' },
+    { nombre: 'Dr. Alfonso Diaz 3', turno: 'mañana', especialidad: 'xd' },
+    { nombre: 'Dra. Delfina Diaz 3', turno: 'tarde', especialidad: 'xd' },
+    { nombre: 'Dr. Izi Fercano 3', turno: 'hibrido', especialidad: 'xd' },
+    { nombre: 'Dr. Alfonso Diaz 4', turno: 'mañana', especialidad: '1' },
+    { nombre: 'Dra. Delfina Diaz 4', turno: 'tarde', especialidad: '1' },
+    { nombre: 'Dr. Izi Fercano 4', turno: 'hibrido', especialidad: '1' },
+    { nombre: 'Dr. Alfonso Diaz 5', turno: 'mañana', especialidad: '1' },
+    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: '2' },
+    { nombre: 'Dr. Izi Fercano 5', turno: 'hibrido', especialidad: '2' },
+]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
 const pm = ['16:00', '16:30', '17:00', '17:30']
@@ -81,11 +87,10 @@ function mostrarForm(d) {
 
 // cargamos el listado de especialistas
 function cargarEspecialista() {
-
-    for (let index = 0; index < Object.keys(especialista).length; index++) {
+    for (let j = 0; j < especialidades.length; j++) {
         const elemento = document.createElement('option');
-        const esp = Object.keys(especialista)[index];
-        elemento.value = index;
+        const esp = especialidades[j];
+        elemento.value = j;
         elemento.text = `${esp}`;
         especialidad.appendChild(elemento);
     }
@@ -111,7 +116,8 @@ function escribirCard() {
 
             elemento.innerHTML = `<div class="card text-center m-3">
             <div class="card-header">
-                <p id="especialidadElegida">Medico ${turno.especialidad}</p>
+                <p id="especialidadElegida" class="m-0">Medico ${turno.especialidad}</p>
+                <p id="medico" class="m-0">${turno.medico}</p>
             </div>
             <div class="card-body">
                 <h5 class="card-title" id="fechaHora">${turno.fechaTurno} ${turno.horarios}</h5>
@@ -148,19 +154,13 @@ function escribirCard() {
 que posee y añade el nuevo segun la opcion indicada */
 especialidad.addEventListener("change", function () {
     borrarOpciones(medico) //llamamos a la funcion borrar
-    const numerito = especialidad.value;
-    
-    const valorInput = Object.keys(especialista.clinico).length;
-    console.log(numerito);
-    for (let i = 0; i < valorInput; i++) {
+    const especialistas = especialista.filter(el => el.especialidad === especialidades[especialidad.value])
+    for (let i = 0; i < especialistas.length; i++) {
         const elemento = document.createElement('option');
-        elemento.value = especialidad.i;
-        elemento.text = `${Object.values(especialista.clinico)[i].nombre}`;
+        elemento.value = i;
+        elemento.text = `${especialistas[i].nombre}`;
         medico.appendChild(elemento);
     }
-
-
-
     mostrarForm('block');
 });
 
@@ -196,11 +196,18 @@ especialidad.addEventListener("change", function () {
 // tomamos los datos del form al hacer submit
 formulario.addEventListener('submit', function (event) {
     event.preventDefault()
+    //crear un for con un condicional el cual pregunte si ya existe un turno asignado en ese horario
+    // mediante los datos de medico, dia y horario 
+    const turnoExistente = nombrePaciente.find(el => el.fechaTurno === fechaTurno.value && el.horarios === horarios.value && el.medico === (especialista[medico.value]).nombre);
+    if (turnoExistente) {
+        alert('Ya existe un turno en ese horario')
+        return
+    }
 
     if (formulario.checkValidity()) { //el form esta listo para ser enviado
         const nuevoTurno = { //si se valida correctamente creo mi objeto y lo pusheo 
             fechaTurno: fechaTurno.value,
-            especialidad: (especialista[especialidad.value]).formacion,
+            especialidad: especialidades[especialidad.value],
             medico: (especialista[medico.value]).nombre,
             horarios: horarios.value,
             consulta: consulta.value,
@@ -216,12 +223,6 @@ formulario.addEventListener('submit', function (event) {
         mostrarForm('none');
         formulario.reset();
 
-        //quitamos el horario elegido del listado displinible 
-        /* function borrarHorario() {
-            am.splice(horarios.value, 1)
-        }
-        borrarHorario()
- */
         toastConfirmacionBts.show();
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
