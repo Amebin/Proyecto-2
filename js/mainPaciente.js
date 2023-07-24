@@ -1,3 +1,4 @@
+
 // Funcion para mostrar el aside con las consultas de turnos
 function mostrarAside() {
     document.getElementById('asideTurnos').style.display = 'block';
@@ -19,6 +20,14 @@ if (localStorage.getItem('nombrePaciente')) {
     nombrePaciente = [];
 }
 
+//saludo de bienvenida
+const bienvenida = document.getElementById('bienvenido');
+
+function darBienvenida() {
+    bienvenida.innerHTML = `Bienvenido <b>nombre de la persona</b>`;
+}
+darBienvenida()
+
 //constante para escribir el form 
 const opcionesFrom = document.querySelectorAll('.opcionesFrom');
 
@@ -31,12 +40,18 @@ const horarios = document.getElementById('horarios')
 const consulta = document.getElementById('consulta');
 
 // creacion de listados especialidad, medico, horarios disponibles 
-const especialista = [
-    { formacion: 'clinico', nombre: 'Dr. Alfonso Diaz' },
-    { formacion: 'urologo', nombre: 'Dr. Franco Gimenez' },
-    { formacion: 'cardiologo', nombre: 'Dr. Lucas Gonzalez' },
-    { formacion: 'Traumatologo', nombre: 'Dra. Liz Patiño' },
-]
+
+const especialista = {
+    clinico: [
+        { nombre: 'Dr. Alfonso Diaz', turno: 'mañana', },
+        { nombre: 'Dra. Delfina Diaz', turno: 'tarde', },
+        { nombre: 'Dr. Izi Fercano', turno: 'hibrido', },
+    ],
+    urologo: {},
+    cardiologo: {},
+    traumatologo: {},
+    pediatra: {},
+}
 
 const am = ['08:00', '08:30', '09:00', '09:30']
 const pm = ['16:00', '16:30', '17:00', '17:30']
@@ -67,11 +82,11 @@ function mostrarForm(d) {
 // cargamos el listado de especialistas
 function cargarEspecialista() {
 
-    for (let index = 0; index < especialista.length; index++) {
+    for (let index = 0; index < Object.keys(especialista).length; index++) {
         const elemento = document.createElement('option');
-        const esp = especialista[index];
+        const esp = Object.keys(especialista)[index];
         elemento.value = index;
-        elemento.text = `${esp.formacion}`;
+        elemento.text = `${esp}`;
         especialidad.appendChild(elemento);
     }
 }
@@ -133,11 +148,18 @@ function escribirCard() {
 que posee y añade el nuevo segun la opcion indicada */
 especialidad.addEventListener("change", function () {
     borrarOpciones(medico) //llamamos a la funcion borrar
+    const numerito = especialidad.value;
+    
+    const valorInput = Object.keys(especialista.clinico).length;
+    console.log(numerito);
+    for (let i = 0; i < valorInput; i++) {
+        const elemento = document.createElement('option');
+        elemento.value = especialidad.i;
+        elemento.text = `${Object.values(especialista.clinico)[i].nombre}`;
+        medico.appendChild(elemento);
+    }
 
-    const elemento = document.createElement('option');
-    elemento.value = especialidad.value;
-    elemento.text = `${(especialista[especialidad.value]).nombre}`;
-    medico.appendChild(elemento);
+
 
     mostrarForm('block');
 });
@@ -147,12 +169,14 @@ especialidad.addEventListener("change", function () {
 //horarios disponibles en base al medico seleccionado
 especialidad.addEventListener("change", function () {
     borrarOpciones(horarios) //llamamos a la funcion borrar
+
+
     for (let index = 0; index < am.length; index++) {
         const elemento = document.createElement('option');
 
         function elegirTurno() {
             if ((medico.value) % 3 === 0) {
-                return todos[index + 2]
+                return todos[index]
             } else if ((medico.value) % 2 === 1) {
                 return pm[index]
             } else {
@@ -192,6 +216,12 @@ formulario.addEventListener('submit', function (event) {
         mostrarForm('none');
         formulario.reset();
 
+        //quitamos el horario elegido del listado displinible 
+        /* function borrarHorario() {
+            am.splice(horarios.value, 1)
+        }
+        borrarHorario()
+ */
         toastConfirmacionBts.show();
     } else { // si no fue validado o dio error creamos una devolucion correspondiente
         console.log('Formulario error');
