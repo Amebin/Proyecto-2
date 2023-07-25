@@ -5,8 +5,6 @@ const inputs = document.querySelectorAll('#formulario input');
 const expresiones = {
 	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    especialidad: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    matricula: /^\d{3,14}$/, // 7 a 14 numeros.
     domicilio: /^[a-zA-Z0-9\s\:]{4,40}$/, // Letras y numeros .
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
@@ -20,8 +18,6 @@ const expresiones = {
 const campos = {
 	nombre: false,
 	apellido: false,
-    especialidad: false,
-    matricula: false,
     domicilio: false,
 	telefono: false,
 	correo: false,
@@ -32,12 +28,10 @@ const campos = {
 //================================================================================
 
 //contructor de objeto
-class Medico {
-	constructor(nombre, apellido, especialidad, matricula, domicilio, telefono, correo, usuario, password, password2){
+class Persona {
+	constructor(nombre, apellido, domicilio, telefono, correo, usuario, password, password2){
 		this.nombre = nombre;
 		this.apellido = apellido;
-		this.especialidad = especialidad;
-		this.matricula = matricula;
 		this.domicilio = domicilio;
 		this.telefono = telefono;
 		this.correo = correo;
@@ -56,12 +50,6 @@ const validarFormulario = (evento) => {
         case "apellido":
             validarCampo(expresiones.apellido, evento.target, 'apellido');			
         break;
-        case "especialidad":
-            validarCampo(expresiones.especialidad, evento.target, 'especialidad');
-        break;
-        case "matricula":
-            validarCampo(expresiones.matricula, evento.target, 'matricula');			
-        break;
         case "domicilio":
             validarCampo(expresiones.domicilio, evento.target, 'domicilio');			
         break;
@@ -76,8 +64,7 @@ const validarFormulario = (evento) => {
 		break;
         case "password":
             validarCampo(expresiones.password, evento.target, 'password');			
-            validarPassword2();
-			
+            validarPassword2();			
         break;
         case "password2":
 			validarPassword2();			
@@ -140,11 +127,9 @@ inputs.forEach((input) => {
 formulario.addEventListener('submit', (evento) => {
 	evento.preventDefault();
 	const terminos = document.getElementById('terminos');
-	if(campos.nombre && campos.apellido && campos.especialidad && campos.matricula && campos.domicilio && campos.telefono && campos.correo && campos.usuario && campos.password && terminos.checked){
+	if(campos.nombre && campos.apellido && campos.domicilio && campos.telefono && campos.correo && campos.usuario && campos.password && terminos.checked){
 		const nombre = document.getElementById('nombre').value;
 		const apellido = document.getElementById('apellido').value;
-		const especialidad = document.getElementById('especialidad').value;
-		const matricula = document.getElementById('matricula').value;
 		const domicilio = document.getElementById('domicilio').value;
 		const telefono = document.getElementById('telefono').value;
 		const correo = document.getElementById('correo').value;
@@ -152,9 +137,9 @@ formulario.addEventListener('submit', (evento) => {
 		const password = document.getElementById('password').value;
 		const password2 = document.getElementById('password2').value;
 		//Crea un nuevo objeto medico
-		const Nuevomedico = new Medico (nombre, apellido, especialidad, matricula, domicilio, telefono,correo, usuario, password, password2);
+		const Nuevapersona = new Persona (nombre, apellido, domicilio, telefono,correo, usuario, password, password2);
 		
-		localStorage.setItem('ListaMedicos', JSON.stringify(Nuevomedico)); // almacena el Obejto 
+		localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); // almacena el Obejto 
 		
 		formulario.reset(); // Pone en blanco el formulario
 		
