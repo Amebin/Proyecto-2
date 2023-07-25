@@ -1,3 +1,4 @@
+
 // Funcion para mostrar el aside con las consultas de turnos
 function mostrarAside() {
     document.getElementById('asideTurnos').style.display = 'block';
@@ -11,13 +12,21 @@ function mostrarSection() {
     document.getElementById('sectionSolicitar').style.display = 'block';
 }
 
-// sumo los datos del local 
-let turnosSolicitados;
-if (localStorage.getItem('turnosSolicitados')) {
-    turnosSolicitados = JSON.parse(localStorage.getItem('turnosSolicitados'));
+// sumo los datos del localStorage
+let nombrePaciente;
+if (localStorage.getItem('nombrePaciente')) {
+    nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
 } else {
-    turnosSolicitados = [];
+    nombrePaciente = [];
 }
+
+//saludo de bienvenida
+const bienvenida = document.getElementById('bienvenido');
+
+function darBienvenida() {
+    bienvenida.innerHTML = `Bienvenido <b>nombre de la persona</b>`;
+}
+darBienvenida()
 
 //constante para escribir el form 
 const opcionesFrom = document.querySelectorAll('.opcionesFrom');
@@ -31,12 +40,23 @@ const horarios = document.getElementById('horarios')
 const consulta = document.getElementById('consulta');
 
 // creacion de listados especialidad, medico, horarios disponibles 
+const especialidades = ['clinico', 'urologo', 'xd', '1']
 const especialista = [
-    { formacion: 'clinico', nombre: 'Dr. Alfonso Diaz' },
-    { formacion: 'urologo', nombre: 'Dr. Franco Gimenez' },
-    { formacion: 'cardiologo', nombre: 'Dr. Lucas Gonzalez' },
-    { formacion: 'Traumatologo', nombre: 'Dra. Liz Patiño' },
-    
+    { nombre: 'Dr. Alfonso Diaz', turno: 'mañana', especialidad: 'clinico' },
+    { nombre: 'Dra. Delfina Diaz', turno: 'tarde', especialidad: 'clinico' },
+    { nombre: 'Dr. Izi Fercano', turno: 'hibrido', especialidad: 'clinico' },
+    { nombre: 'Dr. Alfonso Diaz 2', turno: 'mañana', especialidad: 'urologo' },
+    { nombre: 'Dra. Delfina Diaz 2', turno: 'tarde', especialidad: 'urologo' },
+    { nombre: 'Dr. Izi Fercano 2', turno: 'hibrido', especialidad: 'urologo' },
+    { nombre: 'Dr. Alfonso Diaz 3', turno: 'mañana', especialidad: 'xd' },
+    { nombre: 'Dra. Delfina Diaz 3', turno: 'tarde', especialidad: 'xd' },
+    { nombre: 'Dr. Izi Fercano 3', turno: 'hibrido', especialidad: 'xd' },
+    { nombre: 'Dr. Alfonso Diaz 4', turno: 'mañana', especialidad: '1' },
+    { nombre: 'Dra. Delfina Diaz 4', turno: 'tarde', especialidad: '1' },
+    { nombre: 'Dr. Izi Fercano 4', turno: 'hibrido', especialidad: '1' },
+    { nombre: 'Dr. Alfonso Diaz 5', turno: 'mañana', especialidad: '1' },
+    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: '1' },
+    { nombre: 'Dr. Izi Fercano 5', turno: 'hibrido', especialidad: '1' },
 ]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
@@ -46,9 +66,17 @@ const todos = am.concat(pm);
 // constantes necesarias para escribir la card con los datos del turno 
 const cardTurnos = document.getElementById('cardTurnos');
 
-// constantes para manejar la card
+// constantes para toast de confirmacion
 const toastConfirmacion = document.getElementById('toastConfirmacion');
 const toastConfirmacionBts = bootstrap.Toast.getOrCreateInstance(toastConfirmacion);
+
+//funcion borrar turno 
+function borrarTurno(i) {
+    nombrePaciente.splice(i, 1);
+    localStorage.setItem(`nombrePaciente`, JSON.stringify(nombrePaciente));
+
+    escribirCard();
+};
 
 // funcion para mostrar el resto del form despues de seleccionar el especialista
 function mostrarForm(d) {
@@ -59,12 +87,11 @@ function mostrarForm(d) {
 
 // cargamos el listado de especialistas
 function cargarEspecialista() {
-    
-    for (let index = 0; index < especialista.length; index++) {
+    for (let j = 0; j < especialidades.length; j++) {
         const elemento = document.createElement('option');
-        const esp = especialista[index];
-        elemento.value = index;
-        elemento.text = `${esp.formacion}`;
+        const esp = especialidades[j];
+        elemento.value = j;
+        elemento.text = `${esp}`;
         especialidad.appendChild(elemento);
     }
 }
@@ -76,25 +103,27 @@ function borrarOpciones(v) {
 
 // funcion para completar la card
 function escribirCard() {
-    cardTurnos.innerHTML = ''
+    cardTurnos.innerHTML = '' //vaciamos la card
 
-    if (turnosSolicitados === 0) {
-        cardTurnos.innerHTML = 'No tienes turnos asignados en este momento';
+    if (nombrePaciente.length === 0) { //condiconal mas html de la card
+        const elemento = document.createElement('div')
+
+        elemento.innerHTML = `No tenes turnos asignados todavia`;
+        cardTurnos.appendChild(elemento);
     } else {
-
-        for (let turno of turnosSolicitados) {
+        for (let turno of nombrePaciente) {
             const elemento = document.createElement('div')
 
             elemento.innerHTML = `<div class="card text-center m-3">
             <div class="card-header">
-                <p id="especialidadElegida">Medico ${turno.especialidad}</p>
+                <p id="especialidadElegida" class="m-0">Medico ${turno.especialidad}</p>
+                <p id="medico" class="m-0">${turno.medico}</p>
             </div>
             <div class="card-body">
                 <h5 class="card-title" id="fechaHora">${turno.fechaTurno} ${turno.horarios}</h5>
 
                 <p class="card-text" id="consultaIngresada">${turno.consulta}</p>
-                <a href="#" class="btn btn-primary">Modificar</a>
-                <a href="#" class="btn btn-primary">Cancelar</a>
+                <button class="btn btn-danger btnBorrarTurno">Cancelar Turno</button>
             </div>
             <div class="card-footer text-body-secondary">
                 <p>Recuerde llegar 10 minutos antes de su turno para informarse en mesa de entrada</p>
@@ -103,18 +132,35 @@ function escribirCard() {
             cardTurnos.appendChild(elemento);
         }
     }
+
+    //constante para borrar y modificar turnos 
+    const btnBorrarTurno = document.querySelectorAll('.btnBorrarTurno');
+
+    //le agregamos la funcion al boton que se genera
+    if (btnBorrarTurno.length > 1) {
+        for (let i = 0; i < btnBorrarTurno.length; i++) {
+            btnBorrarTurno[i].removeEventListener('click', () => { })
+        }
+    }
+
+    for (let i = 0; i < btnBorrarTurno.length; i++) {
+        btnBorrarTurno[i].addEventListener('click', () => {
+            borrarTurno(i);
+        });
+    }
 }
 
 /*escucha los cambios en el desplegable especialidad, borra el listado 
 que posee y añade el nuevo segun la opcion indicada */
 especialidad.addEventListener("change", function () {
     borrarOpciones(medico) //llamamos a la funcion borrar
-
-    const elemento = document.createElement('option');
-            elemento.value = especialidad.value;
-            elemento.text = `${(especialista[especialidad.value]).nombre}`;
-            medico.appendChild(elemento);
-
+    const especialistas = especialista.filter(el => el.especialidad === especialidades[especialidad.value])
+    for (let i = 0; i < especialistas.length; i++) {
+        const elemento = document.createElement('option');
+        elemento.value = i;
+        elemento.text = `${especialistas[i].nombre}`;
+        medico.appendChild(elemento);
+    }
     mostrarForm('block');
 });
 
@@ -123,12 +169,14 @@ especialidad.addEventListener("change", function () {
 //horarios disponibles en base al medico seleccionado
 especialidad.addEventListener("change", function () {
     borrarOpciones(horarios) //llamamos a la funcion borrar
+
+
     for (let index = 0; index < am.length; index++) {
         const elemento = document.createElement('option');
 
         function elegirTurno() {
             if ((medico.value) % 3 === 0) {
-                return todos[index + 2]
+                return todos[index]
             } else if ((medico.value) % 2 === 1) {
                 return pm[index]
             } else {
@@ -148,22 +196,29 @@ especialidad.addEventListener("change", function () {
 // tomamos los datos del form al hacer submit
 formulario.addEventListener('submit', function (event) {
     event.preventDefault()
+    //crear un for con un condicional el cual pregunte si ya existe un turno asignado en ese horario
+    // mediante los datos de medico, dia y horario 
+    const turnoExistente = nombrePaciente.find(el => el.fechaTurno === fechaTurno.value && el.horarios === horarios.value && el.medico === (especialista[medico.value]).nombre);
+    if (turnoExistente) {
+        alert('Ya existe un turno en ese horario')
+        return
+    }
 
     if (formulario.checkValidity()) { //el form esta listo para ser enviado
         const nuevoTurno = { //si se valida correctamente creo mi objeto y lo pusheo 
             fechaTurno: fechaTurno.value,
-            especialidad: (especialista[especialidad.value]).formacion,
+            especialidad: especialidades[especialidad.value],
             medico: (especialista[medico.value]).nombre,
             horarios: horarios.value,
             consulta: consulta.value,
         }
 
-        turnosSolicitados.push(nuevoTurno); //pusheamos los nuevos datos
+        nombrePaciente.push(nuevoTurno); //pusheamos los nuevos datos
 
         // guardamos los datos en el local storage despues de pushearlos
-        localStorage.setItem('turnosSolicitados', JSON.stringify(turnosSolicitados));
-       
-        escribirCard()
+        localStorage.setItem(`nombrePaciente`, JSON.stringify(nombrePaciente));
+
+
         //reseteamos el form
         mostrarForm('none');
         formulario.reset();
@@ -176,6 +231,7 @@ formulario.addEventListener('submit', function (event) {
 
 // llamamos funcion cargar especialita
 cargarEspecialista()
+
 
 
 
