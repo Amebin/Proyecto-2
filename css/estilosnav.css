@@ -1,0 +1,100 @@
+body{
+    background-color: #d3e1e3;
+}
+
+.navbar{
+    background-color: #03045e;
+}
+
+.navbar-brand{
+    color: white;
+    transition: all .7s;
+    text-decoration: none;
+}
+
+.navbar-brand:hover{
+    color: #070707;
+    background-color: #91a1cd8b;
+    border-radius: 7px;
+    
+}
+.nav-link a{
+    color:white;
+}
+
+.nav-link{
+    color: white;
+    text-decoration: none;
+}
+
+
+
+.btn{
+background-color: #03045e;
+color: white;
+padding: 0.5rem 1rem;
+border: 2px;
+outline: none;
+border-radius: 20%;
+transition: .5s, color .10s;
+-webkit-transition: .5s, color .10s;
+-moz-transition: .5s, color .10s;
+}
+.btn:hover{
+box-shadow: 0 8px 8px 0 #f8f7f8,0 8px 8px 0 #adadab;
+-ms-transform: translate(0px,5px);
+-webkit-transform: translate(0px,5px);
+-moz-transform:translate(0px,5px);
+}
+
+.dropdown-menu{
+    border-radius: 5px;
+}
+ 
+.carrusel{
+    position: relative;
+    width: 500px;
+    margin-inline: auto ;
+    overflow: hidden;
+}
+
+.carrusel-iner{
+    display: flex;
+    transition: transform 1s ease-in-out;
+    padding-left: 0;
+}
+
+.carrusel img{
+    height: auto;
+    width: 100%;
+}
+
+.Carrusel-prev, .Carrusel-next{
+position:absolute;
+top: 50%;
+transform: translateY(-50%);
+font-size: 30px;
+width: 30px;
+height: 30px;
+color: white;
+text-decoration: none;
+background-color:rgb(0,0, 0,0.5);
+padding: 10px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+
+.Carrusel-prev:hover, .Carrusel-next:hover{
+    background-color: rgb(0,0,0,0.6);
+}
+
+.Carrusel-prev{
+left: 10px;
+}
+
+.Carrusel-next{
+    right: 10px;
+}
