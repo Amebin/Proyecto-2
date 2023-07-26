@@ -53,7 +53,7 @@ box-shadow: 0 8px 8px 0 #f8f7f8,0 8px 8px 0 #adadab;
  
 .carrusel{
     position: relative;
-    width: 500px;
+    width: 700px;
     margin-inline: auto ;
     overflow: hidden;
 }
