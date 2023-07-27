@@ -5,7 +5,7 @@ const inputs = document.querySelectorAll('#formulario input');
 const expresiones = {
 	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
-    domicilio: /^[a-zA-Z0-9\s\:]{4,40}$/, // Letras y numeros .
+    domicilio: /^[a-zA-Z0-9\s\:]{3,40}$/, // Letras y numeros .
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo.
@@ -136,11 +136,37 @@ formulario.addEventListener('submit', (evento) => {
 		const usuario = document.getElementById('usuario').value;
 		const password = document.getElementById('password').value;
 		const password2 = document.getElementById('password2').value;
-		//Crea un nuevo objeto medico
+	
+    
+        //Crea un nuevo objeto medico
 		const Nuevapersona = new Persona (nombre, apellido, domicilio, telefono,correo, usuario, password, password2);
 		
-		localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); // almacena el Obejto 
+        let nombrepersona;
+        if (localStorage.getItem('nombre')) {
+            nombrepersona = JSON.parse(localStorage.getItem('nombre'));
+        } else {
+
+        }
+
+
+        let nombrePaciente;
+           if (localStorage.getItem('nombrePaciente')) {
+               nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
+           } else {
+               nombrePaciente = [];
+           }
+   
+           nombrePaciente.push(nuevoTurno); //pusheamos los nuevos datos*/
+	
+           localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); cambiar
+
+    
+        localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); // almacena el Obejto 
 		
+
+
+
+
 		formulario.reset(); // Pone en blanco el formulario
 		
 		document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');

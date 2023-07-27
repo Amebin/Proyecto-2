@@ -1,13 +1,15 @@
 const formulario = document.getElementById('formulario');
 const inputs = document.querySelectorAll('#formulario input');
+array_Medico = [];
 
 //================================================================================
 const expresiones = {
 	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     apellido: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+	documento: /^\d{8,16}$/, // 8 a 16 numeros para el documento.
     especialidad: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
     matricula: /^\d{3,14}$/, // 7 a 14 numeros.
-    domicilio: /^[a-zA-Z0-9\s\:]{4,40}$/, // Letras y numeros .
+    domicilio: /^[a-zA-Z0-9\s\:]{3,40}$/, // Letras y numeros .
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/, // 7 a 14 numeros.
 	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo.
@@ -20,6 +22,7 @@ const expresiones = {
 const campos = {
 	nombre: false,
 	apellido: false,
+	documento: false,
     especialidad: false,
     matricula: false,
     domicilio: false,
@@ -33,9 +36,10 @@ const campos = {
 
 //contructor de objeto
 class Medico {
-	constructor(nombre, apellido, especialidad, matricula, domicilio, telefono, correo, usuario, password, password2){
+	constructor(nombre, apellido, especialidad, documento, matricula, domicilio, telefono, correo, usuario, password, password2){
 		this.nombre = nombre;
 		this.apellido = apellido;
+		this.documento = documento;
 		this.especialidad = especialidad;
 		this.matricula = matricula;
 		this.domicilio = domicilio;
@@ -44,6 +48,7 @@ class Medico {
 		this.usuario = usuario;
 		this.password = password;
 		this.password2 = password2;
+		//this.constante = false;
 	}
 }
 //================================================================================
@@ -55,6 +60,9 @@ const validarFormulario = (evento) => {
         break;
         case "apellido":
             validarCampo(expresiones.apellido, evento.target, 'apellido');			
+        break;
+		case "documento":
+            validarCampo(expresiones.documento, evento.target, 'documento');			
         break;
         case "especialidad":
             validarCampo(expresiones.especialidad, evento.target, 'especialidad');
@@ -76,8 +84,7 @@ const validarFormulario = (evento) => {
 		break;
         case "password":
             validarCampo(expresiones.password, evento.target, 'password');			
-            validarPassword2();
-			
+            validarPassword2();			
         break;
         case "password2":
 			validarPassword2();			
@@ -140,9 +147,10 @@ inputs.forEach((input) => {
 formulario.addEventListener('submit', (evento) => {
 	evento.preventDefault();
 	const terminos = document.getElementById('terminos');
-	if(campos.nombre && campos.apellido && campos.especialidad && campos.matricula && campos.domicilio && campos.telefono && campos.correo && campos.usuario && campos.password && terminos.checked){
+	if(campos.nombre && campos.apellido && campos.documento && campos.especialidad && campos.matricula && campos.domicilio && campos.telefono && campos.correo && campos.usuario && campos.password && terminos.checked){
 		const nombre = document.getElementById('nombre').value;
 		const apellido = document.getElementById('apellido').value;
+		const documento = document.getElementById('documento').value;
 		const especialidad = document.getElementById('especialidad').value;
 		const matricula = document.getElementById('matricula').value;
 		const domicilio = document.getElementById('domicilio').value;
@@ -151,22 +159,75 @@ formulario.addEventListener('submit', (evento) => {
 		const usuario = document.getElementById('usuario').value;
 		const password = document.getElementById('password').value;
 		const password2 = document.getElementById('password2').value;
+		//const activo = false;
+		
 		//Crea un nuevo objeto medico
-		const Nuevomedico = new Medico (nombre, apellido, especialidad, matricula, domicilio, telefono,correo, usuario, password, password2);
+		const Nuevomedico = new Medico (nombre, apellido, documento, especialidad, matricula, domicilio, telefono,correo, usuario, password, password2);
 		
-		localStorage.setItem('ListaMedicos', JSON.stringify(Nuevomedico)); // almacena el Obejto 
-		
+		if (Nuevomedico.documento===localStorage.getItem('documento')) {
+			console.log('ya existe');
+		} else {
+			if (localStorage.getItem('documento')=== null) {
+				array_Medico.push(Nuevomedico);			
+				localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto 
+				console.log('si paso');					
+			} else {
+				array_Medico.push(localStorage.getItem());
+				console.log(array_Medico);
+			}
+		}
+				
 		formulario.reset(); // Pone en blanco el formulario
-		
-		document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
-		setTimeout(() => {
-			document.getElementById('formulario__mensaje-exito').classList.remove('formulario__mensaje-exito-activo');
-		}, 5000);
 
-		document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
-			icono.classList.remove('formulario__grupo-correcto');
-		});
-	} else {
-		document.getElementById('formulario__mensaje').classList.add('formulario__mensaje-activo');
-	}
+	/*array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2'));
+	JSON.parse(localStorage.getItem("usuario"));
+		//if (localStorage.getItem('documento'))===null){
+		};else{
+			if(JSON.parse(localStorage.getItem('documento'))===Nuevomedico.documento){
+				console.log('Ya existe');
+			}else {
+				array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2'));
+				array_Medico.push(Nuevomedico);
+				localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto			
+				console.log('paso 2');
+			}			
+		};
+
+ array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2', 'activo'));
+		localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto 
+		formulario.reset(); // Pone en blanco el formulario
+
+
+
+let buscar = documento;
+
+if (localStorage.getItem('documento')===null){
+			array_Medico.push(Nuevomedico);	
+		}else {
+				array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2', 'activo'));
+				array_Medico.forEach(Medico =>{
+					if(Medico.documento === Nuevomedico.documento){
+						console.log("YA EXISTE SU REGISTRO", Nuevomedico.nombre);
+					}else {
+						Mediconuevo.push(Nuevomedico);
+						localStorage.setItem('ListaMedicos', JSON.stringify(Mediconuevo)); // almacena el Obejto 
+						formulario.reset(); // Pone en blanco el formulario
+					}
+				});
+		}
+
+		localStorage.setItem('ListaMedicos', JSON.stringify(Mediconuevo)); // almacena el Obejto */
+		
+		
+	document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
+	setTimeout(() => {
+		document.getElementById('formulario__mensaje-exito').classList.remove('formulario__mensaje-exito-activo');
+	}, 5000);
+
+	document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
+		icono.classList.remove('formulario__grupo-correcto');
+	});
+} else {
+document.getElementById('formulario__mensaje').classList.add('formulario__mensaje-activo');
+}
 });
