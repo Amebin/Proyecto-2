@@ -1,5 +1,6 @@
 const formulario = document.getElementById('formulario');
 const inputs = document.querySelectorAll('#formulario input');
+array_Persona = [];
 
 //================================================================================
 const expresiones = {
@@ -29,7 +30,7 @@ const campos = {
 
 //contructor de objeto
 class Persona {
-	constructor(nombre, apellido, domicilio, telefono, correo, usuario, password, password2){
+	constructor(nombre, apellido, domicilio, telefono, correo, usuario, password, password2, activo){
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.domicilio = domicilio;
@@ -38,6 +39,7 @@ class Persona {
 		this.usuario = usuario;
 		this.password = password;
 		this.password2 = password2;
+		this.activo = false;
 	}
 }
 //================================================================================
@@ -136,35 +138,24 @@ formulario.addEventListener('submit', (evento) => {
 		const usuario = document.getElementById('usuario').value;
 		const password = document.getElementById('password').value;
 		const password2 = document.getElementById('password2').value;
+		const activo = false;
 	
     
-        //Crea un nuevo objeto medico
-		const Nuevapersona = new Persona (nombre, apellido, domicilio, telefono,correo, usuario, password, password2);
+        //Crea un nueva persona
+		const Nuevapersona = new Persona (nombre, apellido, domicilio, telefono,correo, usuario, password, password2, activo);
 		
-        let nombrepersona;
-        if (localStorage.getItem('nombre')) {
-            nombrepersona = JSON.parse(localStorage.getItem('nombre'));
-        } else {
-
-        }
-
-
-        let nombrePaciente;
-           if (localStorage.getItem('nombrePaciente')) {
-               nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
-           } else {
-               nombrePaciente = [];
-           }
-   
-           nombrePaciente.push(nuevoTurno); //pusheamos los nuevos datos*/
-	
-           localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); cambiar
-
-    
-        localStorage.setItem('ListaPersonas', JSON.stringify(Nuevapersona)); // almacena el Obejto 
+		const listapersona = localStorage.getItem('ListaPersona');
 		
-
-
+		if (listapersona === null){
+			array_Persona.push(Nuevapersona);
+			localStorage.setItem('ListaPersona', JSON.stringify(array_Persona));	//almacena la persona
+		} else{
+			array_Persona.push(listapersona);		
+			array_Persona.push(Nuevapersona);
+			localStorage.setItem('ListaPersona', JSON.stringify(array_Persona));	// almacena la persona
+		};
+		
+		console.log(array_Persona);
 
 
 		formulario.reset(); // Pone en blanco el formulario

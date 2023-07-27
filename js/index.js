@@ -36,7 +36,7 @@ const campos = {
 
 //contructor de objeto
 class Medico {
-	constructor(nombre, apellido, especialidad, documento, matricula, domicilio, telefono, correo, usuario, password, password2){
+	constructor(nombre, apellido, documento, especialidad, matricula, domicilio, telefono, correo, usuario, password, password2, activo){
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.documento = documento;
@@ -48,7 +48,7 @@ class Medico {
 		this.usuario = usuario;
 		this.password = password;
 		this.password2 = password2;
-		//this.constante = false;
+		this.activo = false;
 	}
 }
 //================================================================================
@@ -159,64 +159,31 @@ formulario.addEventListener('submit', (evento) => {
 		const usuario = document.getElementById('usuario').value;
 		const password = document.getElementById('password').value;
 		const password2 = document.getElementById('password2').value;
-		//const activo = false;
+		const activo = false;
 		
 		//Crea un nuevo objeto medico
-		const Nuevomedico = new Medico (nombre, apellido, documento, especialidad, matricula, domicilio, telefono,correo, usuario, password, password2);
+		const Nuevomedico = new Medico (nombre, apellido, documento, especialidad, matricula, domicilio, telefono,correo, usuario, password, password2, activo);
 		
-		if (Nuevomedico.documento===localStorage.getItem('documento')) {
-			console.log('ya existe');
-		} else {
-			if (localStorage.getItem('documento')=== null) {
-				array_Medico.push(Nuevomedico);			
-				localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto 
-				console.log('si paso');					
-			} else {
-				array_Medico.push(localStorage.getItem());
-				console.log(array_Medico);
-			}
-		}
-				
-		formulario.reset(); // Pone en blanco el formulario
-
-	/*array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2'));
-	JSON.parse(localStorage.getItem("usuario"));
-		//if (localStorage.getItem('documento'))===null){
-		};else{
-			if(JSON.parse(localStorage.getItem('documento'))===Nuevomedico.documento){
-				console.log('Ya existe');
-			}else {
-				array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2'));
-				array_Medico.push(Nuevomedico);
-				localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto			
-				console.log('paso 2');
-			}			
+		const listamedico = localStorage.getItem('LIstaMedicos');
+		
+		if (listamedico === null){
+			array_Medico.push(Nuevomedico);
+			localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico));	
+		} else{
+			array_Medico.push(listamedico);		
+			array_Medico.push(Nuevomedico);
+			localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico));	
 		};
+		
+		console.log(array_Medico);
 
- array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2', 'activo'));
-		localStorage.setItem('ListaMedicos', JSON.stringify(array_Medico)); // almacena el Obejto 
+
 		formulario.reset(); // Pone en blanco el formulario
 
+		
 
 
-let buscar = documento;
-
-if (localStorage.getItem('documento')===null){
-			array_Medico.push(Nuevomedico);	
-		}else {
-				array_Medico.push(localStorage.getItem('nombre', 'apellido', 'documento', 'especialidad', 'matricula', 'domicilio', 'telefono', 'correo', 'usuario', 'password', 'password2', 'activo'));
-				array_Medico.forEach(Medico =>{
-					if(Medico.documento === Nuevomedico.documento){
-						console.log("YA EXISTE SU REGISTRO", Nuevomedico.nombre);
-					}else {
-						Mediconuevo.push(Nuevomedico);
-						localStorage.setItem('ListaMedicos', JSON.stringify(Mediconuevo)); // almacena el Obejto 
-						formulario.reset(); // Pone en blanco el formulario
-					}
-				});
-		}
-
-		localStorage.setItem('ListaMedicos', JSON.stringify(Mediconuevo)); // almacena el Obejto */
+//		localStorage.setItem('ListaMedicos', JSON.stringify(Mediconuevo)); // almacena el Obejto */
 		
 		
 	document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
