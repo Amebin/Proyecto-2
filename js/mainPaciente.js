@@ -218,7 +218,6 @@ formulario.addEventListener('submit', function (event) {
         // guardamos los datos en el local storage despues de pushearlos
         localStorage.setItem(`nombrePaciente`, JSON.stringify(nombrePaciente));
 
-
         //reseteamos el form
         mostrarForm('none');
         formulario.reset();
