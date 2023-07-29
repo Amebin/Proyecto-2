@@ -107,12 +107,7 @@ left: 10px;
     right: 10px;
 }
 
-.containercol {
-    display: grid;
-    grid-template-columns: 1fr 200px 1fr;
-    grid-template-rows: 2fr 100px;
-    grid-column-gap: 20px
-    grid-row-gap: 20px
-    justify-items: stretch
-    align-items: centro
- }
+.contenido{
+    margin: 10px;
+    border: 1px solid black;
+}
