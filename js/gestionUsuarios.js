@@ -1,15 +1,15 @@
-let nombrePaciente;
-if (localStorage.getItem('nombrePaciente')) {
-  nombrePaciente = JSON.parse(localStorage.getItem('nombrePaciente'));
+let ListaMedicos;
+if (localStorage.getItem('ListaMedicos')) {
+  ListaMedicos = JSON.parse(localStorage.getItem('ListaMedicos'));
 } else {
-  nombrePaciente = [];
+  ListaMedicos = [];
 }
 
 const tablaBody = document.getElementById('userTableBody');
 
 // Función para guardar los datos actualizados en el LocalStorage
-function guardarNombrePaciente() {
-  localStorage.setItem('nombrePaciente', JSON.stringify(nombrePaciente));
+function guardarListaMedicos() {
+  localStorage.setItem('ListaMedicos', JSON.stringify(ListaMedicos));
 }
 
 // Función para generar la tabla de turnos
@@ -17,22 +17,22 @@ function generarTablaUsuarios() {
   // Limpiamos la tabla antes de volver a generarla
   tablaBody.innerHTML = '';
 
-  if (nombrePaciente.length === 0) {
+  if (ListaMedicos.length === 0) {
     const fila = document.createElement('tr');
     fila.innerHTML = `No tienes turnos registrados todavía`;
     tablaBody.appendChild(fila);
   } else {
     let index = 1;
-    for (let turno of nombrePaciente) {
+    for (let usuario of ListaMedicos) {
       const fila = document.createElement('tr');
       fila.innerHTML = `
-        <td>${index}</td>
-        <td>${turno.fechaTurno}</td>
-        <td>${turno.horarios}</td>
-        <td>${turno.especialidad ? 'clínico' : 'xd'}</td>
-        <td>
-          <button class="btn btn-danger btn-sm mr-2" onclick="eliminarTurno(${index - 1})">Eliminar</button>
-          <button class="btn btn-primary btn-sm" onclick="modificarTurno(${index - 1})">Modificar</button>
+        <td class="table-secondary">${index}</td>
+        <td class="table-secondary d-none d-sm-block h-100" >${usuario.nombre}</td>
+        <td class="table-secondary">${usuario.documento}</td>
+        <td class="table-secondary">${usuario.activo ? 'true' : 'false'}</td>
+        <td class="table-secondary">
+          <button class="btn btn-danger btn-sm mr-2" onclick="eliminarUsuario(${index - 1})"><i class="bi bi-trash"></i></button>
+          <button class="btn btn-primary btn-sm" onclick="modificarUsuario(${index - 1})"><i class="bi bi-pencil-square"></i></button>
         </td>`;
       index++;
       tablaBody.appendChild(fila);
@@ -40,19 +40,18 @@ function generarTablaUsuarios() {
   }
 }
 
-// Función para eliminar un turno
-function eliminarTurno(index) {
-  nombrePaciente.splice(index, 1);
-  guardarNombrePaciente();
+// Función para eliminar un usuario
+function eliminarUsuario(index) {
+  ListaMedicos.splice(index, 1);
+  guardarListaMedicos();
   generarTablaUsuarios();
 }
 
-// Función para modificar un turno
-function modificarTurno(index) {
-  const turno = nombrePaciente[index];
-  turno.especialidad = !turno.especialidad; // Cambia el valor de 'especialidad' entre true y false
-  turno.medico = turno.especialidad ? 'clínico' : 'xd'; // Cambia el valor del médico según 'especialidad'
-  guardarNombrePaciente();
+// Función para modificar un usuario
+function modificarUsuario(index) {
+  const usuario = ListaMedicos[index];
+  usuario.activo = !usuario.activo; // Cambia el valor de 'especialidad' entre true y false
+  guardarListaMedicos();
   generarTablaUsuarios();
 }
 
