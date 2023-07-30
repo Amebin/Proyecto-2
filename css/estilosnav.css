@@ -110,4 +110,15 @@ left: 10px;
 .contenido{
     margin: 10px;
     border: 1px solid black;
+    
+     
+}
+
+.cards{
+    display: flex;
+
+}
+img{
+    width: 430px;
+    height: 400px;
 }
