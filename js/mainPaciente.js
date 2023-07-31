@@ -40,23 +40,23 @@ const horarios = document.getElementById('horarios')
 const consulta = document.getElementById('consulta');
 
 // creacion de listados especialidad, medico, horarios disponibles 
-const especialidades = ['clinico', 'urologo', 'xd', '1']
+const especialidades = ['clinico', 'urologo', 'cardiologo', 'traumatologo']
 const especialista = [
     { nombre: 'Dr. Alfonso Diaz', turno: 'mañana', especialidad: 'clinico' },
     { nombre: 'Dra. Delfina Diaz', turno: 'tarde', especialidad: 'clinico' },
-    { nombre: 'Dr. Izi Fercano', turno: 'hibrido', especialidad: 'clinico' },
+    { nombre: 'Dr. Fercano Lanieri', turno: 'hibrido', especialidad: 'clinico' },
     { nombre: 'Dr. Alfonso Diaz 2', turno: 'mañana', especialidad: 'urologo' },
     { nombre: 'Dra. Delfina Diaz 2', turno: 'tarde', especialidad: 'urologo' },
-    { nombre: 'Dr. Izi Fercano 2', turno: 'hibrido', especialidad: 'urologo' },
-    { nombre: 'Dr. Alfonso Diaz 3', turno: 'mañana', especialidad: 'xd' },
-    { nombre: 'Dra. Delfina Diaz 3', turno: 'tarde', especialidad: 'xd' },
-    { nombre: 'Dr. Izi Fercano 3', turno: 'hibrido', especialidad: 'xd' },
-    { nombre: 'Dr. Alfonso Diaz 4', turno: 'mañana', especialidad: '1' },
-    { nombre: 'Dra. Delfina Diaz 4', turno: 'tarde', especialidad: '1' },
-    { nombre: 'Dr. Izi Fercano 4', turno: 'hibrido', especialidad: '1' },
-    { nombre: 'Dr. Alfonso Diaz 5', turno: 'mañana', especialidad: '1' },
-    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: '1' },
-    { nombre: 'Dr. Izi Fercano 5', turno: 'hibrido', especialidad: '1' },
+    { nombre: 'Dr. Fercano Lanieri 2', turno: 'hibrido', especialidad: 'urologo' },
+    { nombre: 'Dr. Alfonso Diaz 3', turno: 'mañana', especialidad: 'cardiologo' },
+    { nombre: 'Dra. Delfina Diaz 3', turno: 'tarde', especialidad: 'cardiologo' },
+    { nombre: 'Dr. Fercano Lanieri 3', turno: 'hibrido', especialidad: 'cardiologo' },
+    { nombre: 'Dr. Alfonso Diaz 4', turno: 'mañana', especialidad: 'traumatologo' },
+    { nombre: 'Dra. Delfina Diaz 4', turno: 'tarde', especialidad: 'traumatologo' },
+    { nombre: 'Dr. Fercano Lanieri 4', turno: 'hibrido', especialidad: 'traumatologo' },
+    { nombre: 'Dr. Alfonso Diaz 5', turno: 'mañana', especialidad: 'traumatologo' },
+    { nombre: 'Dra. Delfina Diaz 5', turno: 'tarde', especialidad: 'traumatologo' },
+    { nombre: 'Dr. Fercano Lanieri 5', turno: 'hibrido', especialidad: 'traumatologo' },
 ]
 
 const am = ['08:00', '08:30', '09:00', '09:30']
@@ -168,16 +168,15 @@ especialidad.addEventListener("change", function () {
 // escucha los cambios en el desplegable especialidad (hasta subir los datos de medico), 
 //borra el listado y añade 
 //horarios disponibles en base al medico seleccionado
-especialidad.addEventListener("change", function () {
+medico.addEventListener("change", function () {
     borrarOpciones(horarios) //llamamos a la funcion borrar
-
 
     for (let index = 0; index < am.length; index++) {
         const elemento = document.createElement('option');
 
         function elegirTurno() {
             if ((medico.value) % 3 === 0) {
-                return todos[index]
+                return todos[index + 2]
             } else if ((medico.value) % 2 === 1) {
                 return pm[index]
             } else {
