@@ -5,7 +5,7 @@ if (localStorage.getItem('ListaMedicos')) {
   ListaMedicos = [];
 }
 
-const tablaBody = document.getElementById('userTableBody');
+const tablaUsuarios = document.getElementById('tablaUsuarios');
 
 // Función para guardar los datos actualizados en el LocalStorage
 function guardarListaMedicos() {
@@ -15,12 +15,12 @@ function guardarListaMedicos() {
 // Función para generar la tabla de turnos
 function generarTablaUsuarios() {
   // Limpiamos la tabla antes de volver a generarla
-  tablaBody.innerHTML = '';
+  tablaUsuarios.innerHTML = '';
 
   if (ListaMedicos.length === 0) {
     const fila = document.createElement('tr');
     fila.innerHTML = `No tienes turnos registrados todavía`;
-    tablaBody.appendChild(fila);
+    tablaUsuarios.appendChild(fila);
   } else {
     let index = 1;
     for (let usuario of ListaMedicos) {
@@ -35,7 +35,7 @@ function generarTablaUsuarios() {
           <button class="btn btn-primary btn-sm" onclick="modificarUsuario(${index - 1})"><i class="bi bi-pencil-square"></i></button>
         </td>`;
       index++;
-      tablaBody.appendChild(fila);
+      tablaUsuarios.appendChild(fila);
     }
   }
 }
