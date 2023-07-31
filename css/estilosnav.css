@@ -7,7 +7,7 @@ background-size: cover;
 }
 
 .navbar{
-    background-color: #03045e;
+    background-color: #474747;
 }
 
 .navbar-brand{
@@ -17,7 +17,7 @@ background-size: cover;
 }
 
 .navbar-brand:hover{
-    color: #070707;
+    color: #fcfbfb;
     background-color: #91a1cd8b;
     border-radius: 7px;
     
@@ -34,7 +34,7 @@ background-size: cover;
 
 
 .btn{
-background-color: #03045e;
+background-color: rgb(108, 105, 105)
 color: white;
 padding: 0.5rem 1rem;
 border: 2px;
