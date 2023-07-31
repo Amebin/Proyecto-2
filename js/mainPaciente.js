@@ -24,7 +24,7 @@ if (localStorage.getItem('nombrePaciente')) {
 const bienvenida = document.getElementById('bienvenido');
 
 function darBienvenida() {
-    bienvenida.innerHTML = `Bienvenido <b>nombre de la persona</b>`;
+    bienvenida.innerHTML = `Bienvenido <b>@persona</b>`;
 }
 darBienvenida()
 
@@ -113,6 +113,7 @@ function escribirCard() {
     } else {
         for (let turno of nombrePaciente) {
             const elemento = document.createElement('div')
+            elemento.classList.add('col-12', 'col-sm-6', 'col-lg-4', 'col-xl-3');
 
             elemento.innerHTML = `<div class="card text-center m-3">
             <div class="card-header">

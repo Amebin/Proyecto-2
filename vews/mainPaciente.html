@@ -9,8 +9,16 @@
 
     <title>Bienvenido!</title>
     <style>
-        #asideTurnos, #sectionSolicitar, .opcionesFrom {
+        #asideTurnos,
+        #sectionSolicitar,
+        .opcionesFrom {
             display: none;
+        }
+
+        @media screen and (min-width: 576px) {
+            #espaciadoForm{
+                margin: auto;
+            }
         }
     </style>
 </head>
@@ -21,25 +29,26 @@
         <nav class="bg-body-secondary row sticky-top" style="height: 80px;"></nav>
 
         <main class="pb-5 mb-5">
-        <!-- Primera vista al loguearse paciente, botones de seleccion -->
-            <p class="pt-3" id="bienvenido"></p>
-            
-            <div class="row justify-content-around  pb-3">
+            <!-- botones y saludo -->
+            <div class="row justify-content-around pb-3">
 
-                <button type="button" class="btn btn-primary col-5" onclick="mostrarAside();">Consultar turnos</button>
+                <p class="pt-3 col-12 col-md-3 col-xl-2" id="bienvenido"></p>
 
-                <button type="button" class="btn btn-secondary col-5" onclick="mostrarSection();">Solicitar turnos</button>
+                <button type="button" class="btn btn-primary col-5 col-md-4" onclick="mostrarAside();">Consultar turnos</button>
+
+                <button type="button" class="btn btn-secondary col-5 col-md-4" onclick="mostrarSection();">Solicitar
+                    turnos</button>
             </div>
 
-        <!-- Formulario de solicitud de turnos  -->
+            <!-- Formulario de solicitud de turnos  -->
             <section class="row" id="sectionSolicitar">
 
-                <div>
+                
                     <h6 class="head">Por favor completa los campos requeridos para solicitar un turno</h6>
-                </div>
+                
 
                 <!-- formulario de solicitud -->
-                <div>
+                <div id="espaciadoForm" class="col-12 col-sm-7 col-lg-6 col-xl-5 col-xxl-4">
                     <form method="post">
                         <div class="mb-3">
                             <input type="date" class="form-control" id="fechaTurno" aria-describedby="fechaAyuda"
@@ -71,7 +80,7 @@
                             <input type="text" class="form-control" id="consulta" maxlength="100" required>
                         </div>
 
-                        <button type="submit" class="btn btn-primary opcionesFrom" >Solicitar turno</button>
+                        <button type="submit" class="btn btn-primary opcionesFrom">Solicitar turno</button>
                     </form>
                 </div>
 
@@ -79,24 +88,23 @@
                 <div class="toast-container position-fixed bottom-0 end-0 p-3">
                     <div id="toastConfirmacion" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="toast-header">
-                          <strong class="me-auto">Ingresar nombre paciente, opcional</strong>
-                          <small>Hace 1 segundo</small>
-                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            <strong class="me-auto">Ingresar nombre paciente, opcional</strong>
+                            <small>Hace 1 segundo</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                         <div class="toast-body">
-                          <p id="toastMensaje">Su turno fue confirmado</p>
+                            <p id="toastMensaje">Su turno fue confirmado</p>
                         </div>
-                      </div>
+                    </div>
                 </div>
 
             </section>
 
             <!-- Formulario de consulta de turnos  -->
-            <aside class="row" id="asideTurnos">
-                <div id="cardTurnos">                   
+            <aside id="asideTurnos">
+                <div class="row" id="cardTurnos">
                 </div>
             </aside>
-
         </main>
 
         <footer class="bg-body-secondary row fixed-bottom" style="height: 80px;"></footer>
@@ -106,9 +114,9 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
 
-    
+
     <script src="/js/mainPaciente.js"></script>
-    
+
 
 </body>
 
